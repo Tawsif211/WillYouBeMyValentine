@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Manha 💌</title>
+<style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#fce4ec;
+    overflow:hidden;
+    text-align:center;
+}
+
+/* ===== Envelope ===== */
+#envelope {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width: 200px;
+    height:180px;
+    background:linear-gradient(135deg,#ffb6c1,#ff4d6d);
+    border-radius:20px 20px 15px 15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.3);
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.6s ease;
+}
+#envelope:hover {transform:translate(-50%,-50%) scale(1.05);}
+#envelope h2 {margin:0;color:white;text-shadow:1px 1px 5px #ffcccc;}
+#envelope p {margin-top:5px;font-size:14px;color:white;}
+
+/* ===== Slideshow ===== */
+#slideshow {display:none;width:100%;height:100vh;position:relative;}
+.slide {
+     opacity:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    position:absolute;
+    top:0;
+    left:0;
+    transition:opacity 1s ease, transform 2s ease;
+}
+.slide.active {opacity:1;transform:scale(1.05);}
+
+/* ===== Letter / Message ===== */
+#messageContainer {
+    position:absolute;
+    bottom:5%;
+    width:85%;
+    max-height:60vh;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(255, 255, 255, 0.479);
+    padding:25px;
+    border-radius:20px;
+    font-size:16px;
+    line-height:1.6;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+    text-align:left;
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
+}
+
+
+/* Scrollbar Style */
+#messageContainer::-webkit-scrollbar {
+    width:6px;
+}
+#messageContainer::-webkit-scrollbar-thumb {
+    background:#ffffff54;
+    border-radius:10px;
+}
+#messageContainer::-webkit-scrollbar-track {
+    background:transparent;
+}
+
+/* ===== Floating hearts ===== */
+.heart {
+    position:absolute;
+    color:rgb(248, 4, 167);
+    animation:float 3s linear infinite;
+    user-select:none;
+    font-size:30px;
+    opacity:1;
+}
+@keyframes float {
+    0%{transform:translateY(100vh);opacity:4;}
+    100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* ===== Music Controls ===== */
+#musicControls {
+    position:absolute;
+    top:10px;
+    right:10px;
+    background:rgba(0, 0, 0, 0);
+    padding:10px;
+    border-radius:10px;
+}
+#musicControls input[type=range]{
+    width:80px;
+    accent-color:#ff4d6d;
+    cursor:pointer;
+}
+#musicControls button{
+    background:#ff4d6d;color:white;border:none;padding:5px 10px;border-radius:10px;
+    cursor:pointer;font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<!-- Envelope -->
+<div id="envelope">
+    <h2>💌 Open koro eita!</h2>
+    <p>Eita tomar jonno Mommy, Normal ekta jinish 😭🤍</p>
+</div>
+
+<!-- Slideshow -->
+<div id="slideshow">
+    <div id="slides-container"></div>
+    <div id="messageContainer"></div>
+</div>
+
+<!-- Music -->
+<audio id="music" src="music/lofi.mp3" loop></audio>
+<div id="musicControls">
+    <button id="playPause">Play/Mute 🎵</button>
+    Volume: <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.09">
+</div>
+
+<script>
+// ===== Config =====
+const picsFolder = "images/";
+const picsFiles = ["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg","pic6.jpg","pic7.jpg","pic8.jpg","pic9.jpg","pic10.jpg","pic11.jpg","pic12.jpg","pic13.jpg"];
+const slideDuration = 1500;
+let slideIndex = 0;
+let slides = [];
+
+// ===== Envelope Click =====
+document.getElementById("envelope").addEventListener("click",()=>{
+    const env = document.getElementById("envelope");
+    env.style.transition="all 0.8s";
+    env.style.transform="translate(-50%,-150%) scale(0.8)";
+
+    setTimeout(()=>{
+        env.style.display="none";
+        document.getElementById("slideshow").style.display="block";
+
+        const music = document.getElementById("music");
+        music.volume = document.getElementById("volumeSlider").value;
+        if(!music.muted) music.play().catch(()=>{});
+
+        document.getElementById("messageContainer").innerHTML = `
+        Manha shona,<br><br>
+        Honestly bolte gele amr life e tomar asha ta chilo ekta unexpected but most beautiful blessing. Amr prottek din ektu better hoye jai jokhon tomar kotha mone pore. Kharap somoy o bhalo hoye jai shudhu tomar jonno. Tumi hoito bujho na but tomar smile, tomar voice, tomar simple way of caring eigula amr kache onk special. Tumi amr life e shudhu ekta person na tumi amr peace, amr comfort, amar favourite feeling. I may not be perfect and ami shob somoy thik bhabe express korte pari na. Korte gele onk somoy ulta palta hoye jai. But one thing is always true I genuinely care about you and your happiness. Ami chesta kortesi tomar jonno better ekta manush hote je tomar jonno kichu korte chai, tomar happiness er ekta reason hote chai.<br><br>
+        Tomar shathe kotha bola, tomar shathe moments share kora eigula amr din er best part hoye thake. Life jokhon tough lage, tomar thaka ta amr mon ke shanto kore dei.<br><br>
+        I dont know future e ki likha ache but ami chai joto din possible mane Allah joto din amake bachiye rakhbe ami tomar pashe thaki, tomar support hoi, tomar smile er ekta reason hoi, tomar jibon er ekta strong pillar hoye darai.<br><br>
+        Manha ami tomar preme ondho. Amr pura jibon ta tomar valobashar upor nirbhor kore ache.<br>
+        Tumi ki amake tomar preme ondho hoye shara jibon thakte diba?<br>
+        Tumi ki amr poth cholar shathi hoba?<br><br>
+        You are truly special to me and you always will be.<br>
+        Happy Valentine’s Day 🤍<br><br>
+        তোমার জন্য:<br>
+        পাহাড়ের মতো শান্ত তুমি,<br>
+        আকাশের মতো গভীর<br>
+        তোমার পাশে থাকলেই মনে হয়<br>
+        পেয়েছি নিজের ঠিকানা
+        `;
+
+        const container=document.getElementById("slides-container");
+        picsFiles.forEach((file,i)=>{
+            const img=document.createElement("img");
+            img.src = picsFolder+file;
+            img.className = "slide";
+            if(i===0) img.classList.add("active");
+            container.appendChild(img);
+            slides.push(img);
+        });
+        startSlideshow();
+    },800);
+});
+
+// ===== Slideshow =====
+function startSlideshow(){
+    setInterval(()=>{
+        slides.forEach(s=>s.classList.remove("active"));
+        slides[slideIndex].classList.add("active");
+        slideIndex++;
+        if(slideIndex>=slides.length) slideIndex=0;
+    },slideDuration);
+}
+
+// ===== Floating Hearts =====
+setInterval(()=>{
+    const heart=document.createElement("div");
+    heart.innerHTML="❤️";
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.fontSize=Math.random()*20+20+"px";
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),5000);
+},1200);
+
+// ===== Music Control =====
+const music = document.getElementById("music");
+const volumeSlider = document.getElementById("volumeSlider");
+document.getElementById("playPause").addEventListener("click",()=>{
+    if(music.paused) music.play();
+    else music.pause();
+});
+volumeSlider.addEventListener("input",()=>{music.volume = volumeSlider.value;});
+</script>
+</body>
+</html>
